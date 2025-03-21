@@ -12,5 +12,6 @@ app.register_blueprint(qr_bp)
 def home():
     return "Hey I'm working Perfectly fine"
 
+# print("hello buddyyyy")
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

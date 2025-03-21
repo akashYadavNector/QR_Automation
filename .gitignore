@@ -1,0 +1,38 @@
+# Node.js dependencies (Client)
+node_modules/
+
+# Next.js build output (Client)
+.next/
+out/
+
+# Environment variables (Client)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Python virtual environment (Server)
+venv/
+myenv/
+
+# Bytecode files (Server)
+*.pyc
+*.pyo
+*.pyd
+
+# Django-specific files (Server)
+__pycache__/
+db.sqlite3
+
+# Logs and temporary files (Both)
+*.log
+
+# Secrets and environment variables (Both)
+.env
+
+# IDE and editor files (Both)
+.vscode/
+.idea/
+
+# Miscellaneous (Both)
+.DS_Store
