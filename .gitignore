@@ -36,3 +36,40 @@ db.sqlite3
 
 # Miscellaneous (Both)
 .DS_Store
+# Node.js dependencies (Client)
+client/node_modules/
+
+# Next.js build output (Client)
+client/.next/
+client/out/
+
+# Environment variables (Client)
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+# Python virtual environment (Server)
+server/myenv/
+
+# Bytecode files (Server)
+server/*.pyc
+server/*.pyo
+server/*.pyd
+
+# Django-specific files (Server)
+server/__pycache__/
+server/db.sqlite3
+
+# Logs and temporary files (Both)
+*.log
+
+# Secrets and environment variables (Server)
+server/.env
+
+# IDE and editor files (Both)
+.vscode/
+.idea/
+
+# Miscellaneous (Both)
+.DS_Store
