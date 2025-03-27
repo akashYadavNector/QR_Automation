@@ -1,12 +1,20 @@
 'use client'
+import { LoginSchema } from '@/utils/yup';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react'
+import { FiLoader } from "react-icons/fi";
+
 
 export const Login = () => {
     const [minute, setMinute] = useState(1);
     const [seconds, setSeconds] = useState(59);
-
-    const sendOTP = () => {
+    const [submitLoader, setSubmitLoader] = useState(false);
+    const [OTPLoader, SetOTPLoader] = useState(false)
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const router = useRouter()
+    const OTPTimer = () => {
         let intervalId = setInterval(() => {
             setMinute((prev) => 0)
             console.log(`This is seconds inside my setIntervals ${seconds}`);
@@ -16,6 +24,7 @@ export const Login = () => {
                 return clearInterval(intervalId)
             }
             setSeconds(((preValue) => {
+                SetOTPLoader(false);
                 if (preValue === 0) {
                     console.log('hey the value reached to 0');
                     clearInterval(intervalId)
@@ -25,12 +34,32 @@ export const Login = () => {
                 return preValue - 1
             }))
         }, 1000);
+    }       
+    const OTPClickHandler = () => {
+        SetOTPLoader(true);
+        return new Promise(async (resolve, reject) => {
+            const fetchItem = await fetch('https://jsonplaceholder.typicode.com/posts');
+            const result = await fetchItem.json()
+            console.log('below is the result');
+            console.log(typeof result);
+            console.log(result);
+            if (typeof result === "object" && result !== null) {
+                console.log('im entering the trueeee resullttttttttt');
+                resolve("OTP HAS BEEN SENT TO THE USER ");
+                OTPTimer()
+            } else {
+                reject("OTP has been rejected for now")
+            }
+            console.log('testinggggggg my point');
+        })
     }
-    useEffect(() => {
 
-    }, [])
-    console.log(seconds);
-
+    const submitHandler = (e: object) => {
+        setSubmitLoader(true)
+        console.log(e);
+        router.push("dashboard")
+    }
+    // console.log(emailRef.current?.value);
     return (
         <div className='h-screen relative'
             style={{
@@ -49,23 +78,38 @@ export const Login = () => {
                     alt='NO Image Found'
                 />
                 <h1 className='text-center text-lg my-4 underline'>QR Generation & Authentication</h1>
-                <div className='flex w-full'>
-                    <input type="text" className='py-5 px-2 w-8/12 border rounded-l border-gray-400 border-r-0 p-2' placeholder='Enter you email here ' />
-                    <button className={`${minute !== 1 && seconds !== 59 ? "bg-gray-500" : "bg-green-500 hover:bg-green-700"}  duration-300  py-5 cursor-pointer text-white p-2 w-4/12 rounded-r-lg`}
-                        disabled={minute !== 1 && seconds !== 59 && true}
-                        onClick={sendOTP}
-                    >
-                        {minute !== 1 && seconds !== 59 ? `${minute} : ${seconds}` : "Send OTP"}
-                    </button>
-                </div>
-                <div className='flex w-full items-center '>
-                    <input type="text" placeholder='Enter your OTP' className='w-8/12 my-5 ring ring-gray-400 p-3 rounded' />
-                    <span className='w-4/12 text-[14px] px-2 font-bold text-center'>Enter the OTP which you have received on your mail </span>
-                </div>
-                <button
-                    className='bg-blue-500 hover:bg-blue-800 p-3 my-5 rounded duration-300 cursor-pointer text-white w-full '
+                <Formik
+                    initialValues={{ email: "", otp: "" }}
+                    onSubmit={submitHandler}
+                    validationSchema={LoginSchema}
+                >
+                    <Form>
+                        <div className='flex w-full relative my-3'>
+                            <Field type="email" ref={emailRef} name='email' className='py-5 px-2 w-8/12 border rounded-l border-gray-400 border-r-0 p-2' placeholder='Enter you email here ' />
+                            <ErrorMessage name='email' component="span" className='text-red-700 absolute bottom-[-18] text-[13px]' />
+                            <button
+                                type='button'
+                                className={`${minute !== 1 && seconds !== 59 ? "bg-gray-500" : "bg-green-500 hover:bg-green-700"}  duration-300  py-5 cursor-pointer text-white p-2 w-4/12 rounded-r-lg flex justify-center`}
+                                disabled={minute !== 1 && seconds !== 59 && true}
+                                onClick={OTPClickHandler}
+                            >
+                                {minute !== 1 && seconds !== 59 ? `${minute} : ${seconds}` : (OTPLoader ? <FiLoader size={30} className='animate-spin [animation-duration:2s]' /> : "Sent OTP")}
+                            </button>
+                        </div>
+                        <div className='flex w-full items-center relative my-3'>
+                            <Field type="text" name="otp" placeholder='Enter your OTP' className='w-8/12 my-5 ring ring-gray-400 p-3 rounded' />
+                            <ErrorMessage name='otp' component="span" className='text-red-700 absolute bottom-0 text-[13px]' />
+                            <span className='w-4/12 text-[14px] px-2 font-bold text-center'>Enter the OTP which you have received on your mail </span>
 
-                >Login</button>
+                        </div>
+                        <button
+                            className={`bg-blue-500 hover:bg-blue-800 ${submitLoader && ""}  flex justify-center duration-500 p-3 my-5 rounded cursor-pointer text-white w-full `}
+                            type='submit'
+                            // onClick={submitHandler}
+                            disabled={submitLoader && true}
+                        >{submitLoader ? <FiLoader size={30} className='animate-spin [animation-duration:2s]' /> : "Submit"}</button>
+                    </Form>
+                </Formik>
             </div>
         </div>
     )
