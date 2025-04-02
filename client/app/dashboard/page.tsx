@@ -1,20 +1,20 @@
 'use client'
+import DataTable from "@/components/Dashboard/DataTable";
 import { generateQRSchema } from "@/utils/yup";
 import { Form, Formik, Field, ErrorMessage } from "formik"
 import { useState } from "react";
+import { FiLoader } from "react-icons/fi";
 
 const Dashboard = () => {
+    const [submitLoader, setSubmitLoader] = useState(false);
     const submitHandler = (e: object) => {
         console.log('this is my submit handler and below are the value');
         console.log(e);
-
+        setSubmitLoader(true);
     }
-    const [companies, setCompanies] = useState([
-
-    ])
     return (
-        <div className="bg-[#fff] dark:bg-gray-500 h-full pl-8">
-            <h2 className="text-black text-4xl text-center my-12 underline">Fill the below details to Generate the QR Code</h2>
+        <div className="bg-[#e6e6e6d3] dark:bg-gray-500 h-full max-h-screen ">
+            <h2 className="text-gray-800 text-xl text-center pt-2 font-bold">Fill the below details to Generate the QR Code</h2>
             <Formik
                 initialValues={{ companyName: "", productName: "", qty: "", }}
                 onSubmit={submitHandler}
@@ -51,9 +51,14 @@ const Dashboard = () => {
                             <ErrorMessage name="qty" component="div" className="text-red-500" />
                         </div>
                     </div>
-                    <button type="submit" className="p-3 ring rounded-lg cursor-pointer bg-green-500 hover:bg-green-700 text-gray-200 my-12 px-15">Generate QR Code</button>
+                    <button type="submit" className={`p-3 min-w-[16rem] flex justify-center rounded-lg cursor-pointer ${submitLoader ? "bg-gray-600 hover:bg-gray-600" : " bg-[#10a86c] hover:bg-green-700"} text-gray-200 my-5 px-15`}
+                        disabled={submitLoader && true}
+                    >
+                        {submitLoader ? <FiLoader size={30} className="animate-spin [animation-duration:2s]" /> : "Generate Qr Code"}
+                    </button>
                 </Form>
             </Formik>
+            <DataTable />
         </div>
     )
 }

@@ -33,7 +33,7 @@ const DashboardSidebar = ({ dark }: { dark: boolean }) => {
     console.log(lastPathName);
     console.log(names[names.length - 1]);
     return (
-        <div className=' w-2/12 bg-[#55AD9B] h-screen dark:bg-[#1c252e] duration-500 shadow-black shadow-2xl dark:shadow-amber-50'>
+        <div className=' w-full bg-[#55AD9B] h-screen dark:bg-[#1c252e] duration-500 dark:shadow-amber-50'>
             <div className='flex p-2 justify-between items-center'>
                 <Image
                     src={`${dark ? "/Nector2.svg" : "Nector.svg"}`}
@@ -50,8 +50,8 @@ const DashboardSidebar = ({ dark }: { dark: boolean }) => {
                         const path = link.href.split('/');
                         const currentPath = path[path.length - 1];
                         const isActive = currentPath === lastPathName;
-                        return <Link href={link.href} className={`text-xl px-5 text-gray-200 flex ${isActive && "bg-[#006450] text-white rounded-l-2xl ml-3"} dark:text-white dark:bg-inherit dark:hover:bg-gray-400 hover:bg-gray-600 p-3 hover:shadow-lg shadow-gray-700 hover:text-white hover:opacity-75`}>
-                            {<link.icon size={30} color={`${isActive ?"#fff":"#000"}`} />} <span className='mx-3'>{link.label}</span>
+                        return <Link href={link.href} className={`text-xl px-5 font-semibold text-gray-200 flex ${isActive && "bg-[#006450] text-white rounded-l-2xl ml-3"} hover:rounded-l-2xl dark:text-white dark:bg-inherit dark:hover:bg-gray-400 hover:bg-[#006450] p-3 hover:shadow-lg shadow-gray-700 hover:text-white my-2`}>
+                            {<link.icon size={30} color={`${isActive ? "#fff" : "#000"}`} />} <span className='mx-3'>{link.label}</span>
                         </Link>
                     })
                 }

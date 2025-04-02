@@ -7,10 +7,14 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [dark, setDark] = useState<boolean>(false);
   return (
     <div className={`flex ${dark ? "dark" : ""}`}>
-      <DashboardSidebar dark={dark} />
-      <div className="flex flex-col w-10/12">
+      <div className="w-2/12 fixed h-full z-20">
+        <DashboardSidebar dark={dark} />
+      </div>
+      <div className="flex flex-col w-10/12 h-full ml-[16.67%]">
         <DashboardHeader setDark={setDark} dark={dark} />
+        <div className="h-10/12">
         {children}
+        </div>
       </div>
     </div>
   )

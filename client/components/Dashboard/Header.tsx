@@ -18,7 +18,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ setDark, dark }) => {
         router.push("/dashboard/settings")
     }
     return (
-        <div className="bg-[#95D2B3] w-full px-2 relative place-self-end dark:bg-[#2c2d2e] duration-500 ">
+        <div className="bg-[#1d7463] w-full px-2 relative place-self-end dark:bg-[#2c2d2e] duration-500 h-2/12">
             <div className="flex justify-end items-center">
 
                 {
@@ -27,7 +27,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ setDark, dark }) => {
                         :
                         <IoSunny size={45} color="#FFD95F" className="cursor-pointer mx-1" onClick={() => setDark(true)} />
                 }
-                <IoMdSettings onClick={goToSettingsHandler} size={45} className="cursor-pointer animate-spin [animation-duration:5s] mx-3" color={`${dark ? "#fff" : "#838383"}`} />
+                <IoMdSettings onClick={goToSettingsHandler} size={45} className="cursor-pointer animate-spin [animation-duration:5s] mx-3" color={`${dark ? "#fff" : "#b5b5b5"}`} />
                 <Image
                     src={"/user.png"}
                     width={70}
